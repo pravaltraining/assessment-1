@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dictionary</title>
+    <link rel="stylesheet" type="text/css" href="styles/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="resources\bootstrap-icons-1.9.0\bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="px-5 py-3">
+        <div id="header-section" class="d-flex justify-content-between border-bottom p-2">
+            <div class="d-flex align-items-center">
+                <img class="brand-logo" src="https://pravaltech.com/wp-content/uploads/2023/06/PRAVAL-LOGO-300x77.png">
+                <div class="pl-3">
+                    <h3 class="m-0 text-style">Employee Directory</h3>
+                    <h5 class="m-0">The Ultimate People Directory Experience</h5>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end align-items-end">
+                <h3 class="m-0 text-style">Welcome,<span class="pr-2 text-dark" id="activeUserName"></span></h3>
+                <img id="activeUserImg" class="pb-1" src="resources\images\profile.jpg">
+            </div>
+        </div>
+        <div id="bodySection" class="pt-4">
+            <div class="pt-1 row">
+                <div id="filterLeftSection" class="col pr-0">
+                    <div class="font-weight-bold mb-2">Departments</div>
+                    <ul class="list-unstyled mb-4" id="departmentList">
+
+                    </ul>
+                    <div class="font-weight-bold mb-2">Offices</div>
+                    <ul class="list-unstyled mb-4" id="officeList">
+
+                    </ul>
+                    <div class="font-weight-bold mb-2">Job Titles</div>
+                    <ul class="list-unstyled mb-1" id="jobTitleList">
+
+                    </ul>
+                    <div class="font-weight-bold mb-2">Policy</div>
+                    <ul class="list-unstyled mb-1" id="policyList">
+                        <li data-target="#policyModal" data-toggle="modal" onclick="showUserPolicy()">User Policee</li>
+                    </ul>
+                    <a class="toggle-btn" id="showMore" onclick="toggleList(true)">Show More</a>
+                </div>
+                <div class="col-sm-10 body-content">
+                    <ul class="list-unstyled d-flex justify-content-between" id="filterByLetter">
+                        <li class="chracter-style person-image" onclick="clearSearch()"><img id="personImage"
+                                src="resources\person-icon.png" class="mb-1"></li>
+
+                    </ul>
+                    <div class="d-flex justify-content-between">
+                        <div class="">
+                            <lable>Search</lable>
+                            <input class="rounded-0 input-style" id="searchEmployee"
+                                oninput="searchEmployee(this,'','')" type="" placeholder="Enter, any keyword">
+                            <button type="button" id="clearButton"
+                                class="rounded-0 border-0 text-white px-3 ml-4 input-style"
+                                onclick="clearSearch()">Clear</button>
+
+                            <lable class="ml-5">Filter By</lable>
+
+                            <select class="filter-options input-style rounded-0" id="searchOptions"
+                                onchange="filterBySelect(this)">
+                                <option selected>Options</option>
+                                <option value="name">Preferred Name</option>
+                                <option value="department">Preferred Department</option>
+                                <option value="office">Preferred Office</option>
+                                <option value="jobtitle">Preferred Job Title</option>
+                            </select>
+
+                        </div>
+                        <button id="addEmployee" class="border-0 text-white input-style button-style"
+                            data-target="#formModal" data-toggle="modal" onclick="formFunctions(true)">Add Employee
+                        </button>
+                        <button id="addEntity" class="border-0 text-white input-style button-style"
+                            data-target="#entityModal" data-toggle="modal">Add Entity</button>
+
+                    </div>
+                    <div class="py-2">
+                        <span class="">Note:</span><span class="text-muted"> Please use the advanced filter options to
+                            refine your results.</span>
+                    </div>
+                    <div class="modal-form-section" id="modalFormSection">
+                        <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content ml-auto mr-auto" id="form-modal">
+                                    <div class="modal-header p-2">
+                                        <h5 class="modal-title" id="FormTitle">Add Contact</h5>
+                                        <button type="button" id="cancalButton" class="close" data-dismiss="modal"
+                                            aria-label="Close" onclick="cancelUpdate()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body py-0">
+                                        <div class="form-container px-3" id="formContainer">
+                                            <form id="addEmployeeForm" class="py-1 px-2">
+                                                <div class="form-section-style">
+                                                    <div class="form-row mb-2">
+                                                        <div class="form-group col-md-6 mb-0 pr-3">
+                                                            <label class="d-inline-flex mb-0"
+                                                                for="inputFirstName"><strong>First Name</strong>
+                                                                <div id="firstNameError"
+                                                                    class="errorStyle pl-1 text-danger"></div>
+                                                            </label>
+                                                            <input type="text" name='firstName'
+                                                                class="form-control rounded-0" id="inputFirstName"
+                                                                maxlength="35" autocomplete="off"
+                                                                oninput="employeeValidation(this.value,'firstName')"
+                                                                required>
+                                                        </div>
+                                                        <div class="form-group col-md-6 mb-0 pl-2">
+                                                            <label class="d-inline-flex mb-0" for="inputLastName">Last
+                                                                Name
+                                                                <div id="lastNameError"
+                                                                    class="errorStyle pl-1 text-danger"></div>
+                                                            </label>
+                                                            <input type="text" name='lastName'
+                                                                class="form-control rounded-0" id="inputLastName"
+                                                                maxlength="35" autocomplete="off"
+                                                                oninput="employeeValidation(this.value,'lastName')"
+                                                                required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row mb-2">
+                                                        <div class="form-group col-md-6 mb-0 pr-3">
+                                                            <label class="d-inline-flex mb-0"
+                                                                for="inputPreferedName"><strong>Prefered Name</strong>
+                                                            </label>
+                                                            <input type="text" name="preferedName"
+                                                                class="form-control rounded-0" id="inputPreferedName"
+                                                                maxlength="40" autocomplete="off" disabled>
+                                                        </div>
+                                                        <div class="form-group col-md-6 mb-1 pl-2">
+                                                            <label class="d-flex mb-0 labelStyle"
+                                                                for="male"><strong>Gender</strong>
+                                                                <div id="genderError"
+                                                                    class="errorStyle pl-1 text-danger"></div>
+                                                            </label>
+                                                            <div class="form-check form-check-inline pt-2">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="inlineRadioOptions" id="male" value="Male"
+                                                                    oninput="employeeValidation(this.value,'gender')">
+                                                                <label class="form-check-label"
+                                                                    for="inlineRadio1">Male</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline pt-2">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="inlineRadioOptions" id="female" value="Female"
+                                                                    oninput="employeeValidation(this.value,'gender')">
+                                                                <label class="form-check-label"
+                                                                    for="inlineRadio2">Female</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline pt-2">
+                                                                <input class="form-check-input" type="radio"
+                                                                    value="Other" name="inlineRadioOptions"
+                                                                    oninput="employeeValidation(this.value,'gender')"
+                                                                    readonly>
+                                                                <label class="form-check-label"
+                                                                    for="inlineRadio2">Other</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-2">
+                                                        <label class="d-inline-flex mb-0"
+                                                            for="inputEmail"><strong>Email</strong>
+                                                            <div id="emailError" class="errorStyle pl-3 text-danger ">
+                                                            </div>
+                                                        </label>
+                                                        <input type="email" name="email" class="form-control rounded-0"
+                                                            id="inputEmail" maxlength="40" autocomplete="off"
+                                                            oninput="employeeValidation(this.value,'email')" required>
+                                                    </div>
+                                                    <div class="form-row mb-2">
+                                                        <div class="form-group col-md-6 mb-0 pr-3">
+                                                            <label class="d-inline-flex mb-0"
+                                                                for="inputMobile"><strong>Mobile</strong>
+                                                                <div id="mobileError"
+                                                                    class="errorStyle pl-3 text-danger "></div>
+                                                            </label>
+                                                            <input type="text" name="mobile" maxlength="10"
+                                                                minlength="10" class="form-control rounded-0"
+                                                                id="inputMobile"
+                                                                oninput="employeeValidation(this.value,'mobile')"
+                                                                autocomplete="off" required>
+                                                        </div>
+                                                        <div class="form-group col-md-6 mb-0 pl-2">
+                                                            <label class="d-inline-flex mb-0"
+                                                                for="inputDepartment"><strong>Department</strong>
+                                                                <div id="departmentError"
+                                                                    class="errorStyle pl-3 text-danger"></div>
+                                                            </label>
+                                                            <select name="department" class="form-control rounded-0"
+                                                                id="inputDepartment"
+                                                                oninput="employeeValidation(this.value,'department')"
+                                                                required>
+                                                                <option value="" disabled selected>Select Department
+                                                                </option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row mb-2">
+                                                        <div class="form-group col-md-6 mb-0 pr-3">
+                                                            <label class="d-inline-flex mb-0"
+                                                                for="inputJobTitle"><strong>Job Title</strong>
+                                                                <div id="jobTitleError"
+                                                                    class="errorStyle pl-3 text-danger"></div>
+                                                            </label>
+                                                            <select name="jobTitle"
+                                                                class="form-control form-control-style rounded-0"
+                                                                id="inputjobTitle"
+                                                                oninput="employeeValidation(this.value,'jobTitle')"
+                                                                required>
+                                                                <option value="" disabled selected>Select Job Title
+                                                                </option>
+
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-6 mb-0 pl-2">
+                                                            <label class="d-inline-flex mb-0"
+                                                                for="inputOffice"><strong>Office</strong>
+                                                                <div id="officeError"
+                                                                    class="errorStyle pl-3 text-danger"></div>
+                                                            </label>
+                                                            <select name="office" class="form-control rounded-0"
+                                                                id="inputOffice"
+                                                                oninput="employeeValidation(this.value,'office')"
+                                                                required>
+                                                                <option value="" disabled selected>Select Office
+                                                                </option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-2">
+                                                        <label class="d-inline-flex mb-0" for="inputSkype"><strong>Skype
+                                                                ID</strong>
+                                                            <div id="skypeError" class="errorStyle pl-3 text-danger ">
+                                                            </div>
+                                                        </label>
+                                                        <input name="skype"
+                                                            class="form-control bor rounded-0 overflow-auto"
+                                                            id="inputSkype" maxlength="150" autocomplete="off"
+                                                            oninput="employeeValidation(this.value,'skype')" required>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer p-2">
+                                        <button type="submit" id="submitButton" class="btn btn-primary"
+                                            onclick="addEmployee(event)"><span class="px-3">Add</span></button>
+                                        <button type="button" id="deleteButton" class="btn btn-primary text-white"
+                                            data-toggle="modal" data-target="#myModal"
+                                            onclick="confirmChange('delete')"><span class="">Delete</span></button>
+                                        <button type="button" class="btn btn-secondary px-2" id="editButton"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="policyModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content border-0">
+                                <button type="button" id="cancalButton" class="close" data-dismiss="modal"
+                                    aria-label="Close" onclick="cancelUpdate()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <div class="modal-body py-0 d-flex justify-content-center">
+                                    <div class="add-employee-form pt-1 pb-4 px-5" id="addEmpoyeeSection">
+                                        <div class="policy-information">
+                                            <p>We work with any customer at any phase of business or software product
+                                                development — from startups
+                                                at the ideation stage to mid-sized businesses and large enterprises with
+                                                a focus on optimization and
+                                                expansion no matter the industry they operate in. Praval's custom
+                                                application developement services
+                                                enhances user experience and fuels business growth through strategic
+                                                partnership and custom digital solutions.
+                                            </p>
+                                            <p>Your traditional system may have served,, you well and gotten you where
+                                                you are today. Like everything in life it has
+                                                it’s expiry. Outdated systems significantly restrict your ability to
+                                                scale or worse keep up with your new gen competitors.
+                                                we can help modernize you products or enterprise apps in phased maner
+                                                without disrupting your current business operations.
+                                            </p>
+                                            <p>For more details click on <span class="text-primary"><u>Terms and
+                                                        conditions.</u></span></p>
+                                        </div>
+                                        <button class=" px-3 m-1 rounded bg-white form-font-style cancel-button "
+                                            type="button">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="employee-directory-border" id="employeeDirectoryStyle">
+                        <h4 id="noContactFound" class="text-danger m-0"></h4>
+                        <div id="loadingAnimation" class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <div id="employeeDirectorySection" class="p-3">
+
+                        </div>
+                    </div>
+                    <div class="modal-form-section">
+                        <div class="modal fade" id="entityModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content ml-auto mr-auto" id="entityModalStyle">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Add Entity</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                            onclick="cancelUpdate()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body py-0">
+                                        <div class="form-container px-3 py-2">
+                                            <form id="entityForm" class="py-1 px-2">
+                                                <div class="form-section-style">
+                                                    <div class="form-group mb-0">
+                                                        <label class="d-inline-flex mb-0"
+                                                            for="selectEntity"><strong>Entity</strong></label>
+                                                        <select name="entity" class="form-control rounded-0"
+                                                            id="selectEntity" required>
+                                                            <option value="" disabled selected>Select Entity
+                                                            </option>
+                                                            <option value='department'>Department</option>
+                                                            <option value='office'>Office</option>
+                                                            <option value='jobTitle'>JobTitle</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group mb-0">
+                                                        <label class="d-inline-flex mb-0"
+                                                            for="entityType"><strong>Select Type</strong></label>
+                                                        <select name="entityType" class="form-control rounded-0"
+                                                            id="entityType" required>
+                                                            <option value='' disabled selected>Select Type</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary"><span class="px-3"
+                                                onclick="addFilter()">Add</span></button>
+                                        <button type="button" class="btn btn-secondary px-2" data-dismiss="modal"
+                                            aria-label="close" onclick="cancelUpdate()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="loginModal" data-backdrop="static" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content border-0">
+                                <div class="modal-header">
+                                    <h4 id="modalHeding" class="modal-title">Start you test</h4>
+                                </div>
+                                <div class="modal-body py-0 d-flex justify-content-center">
+                                    <div class="add-employee-form pt-1 pb-4 px-5" id="addEmpoyeeSection">
+                                        <form onsubmit="handleLogin(event)" >
+                                            <div class="form-group">
+                                                <input type="text" id="login" class="form-control fadeIn second m-2" name="login" placeholder="Enter Name" required="required">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" id="password" class="form-control fadeIn third m-2" name="password"
+                                                    placeholder="Password">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="submit" class="rounded border-0 px-2 py-1 text-light fourth d-block mx-auto button-style" value="Log In">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="popMassage">
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog-centered w-25 ml-auto mr-auto">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 id="modalHeding" class="modal-title">Heading</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                Select Below option
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirmUpdate"
+                                    onclick="updateEmployeeDirectory(event)">Update</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="scripts\constant.js"></script>
+    <script src="scripts\service.js"></script>
+    <script src="scripts\helper.js"></script>
+    <script src="scripts\regex.js"></script>
+    <script src="scripts\validation.js"></script>
+    <script src="scripts\index.js"></script>
+</body>
+
+</html>

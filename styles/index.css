@@ -1,0 +1,163 @@
+.brand-logo{
+    width: 24%;
+    height: auto;
+}
+#activeUserImg{
+    width: 10%;
+    height: auto;
+}
+
+#leftNavigationSecton ,#rightNavigationSecton{
+    width: fit-content;
+}
+
+.text-style{
+    color: rgb(15, 114, 177);
+}
+.chracter-style{
+     width: 33px;
+     height: 35px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background: rgb(15, 114, 177);
+     color:white;
+}
+
+#personImage{
+    width: 24px;
+    height: auto;
+}
+
+.filter-options{
+    padding: 5px;
+    width: 15%;
+}
+
+#clearButton{
+    background-color:rgb(105, 186, 0);
+}
+
+
+.button-style{
+    background-color: rgb(15, 114, 177);
+}
+
+.employee-image{
+    width: 66px;
+    height: 69px;
+}
+
+#searchEmployee {
+    border: 1px solid #555;
+    padding-left:35px;
+    background: transparent url("\resources\images\search-icon.png") no-repeat;
+    background-size:10%;
+    background-position-y: 5px;
+    background-position-x: 5px;
+}
+
+.input-style{
+    height: 34px;
+}
+
+#searchOptions{
+    width:180px;
+}
+
+#filterLeftSection{
+    font-size: 14px;
+}
+
+.hidden {
+    display: none;
+}
+
+.user-contact{
+    width: 100%;
+}
+
+#userDirectory div{
+    font-size: 12px;
+}
+
+.employee-directory{
+    background-color: rgb(233, 232, 232);
+}
+
+#employeeDirectorySection{
+  display: grid;
+  grid-template-columns: 24.2% 24.2% 24.2% 24.2%;
+  gap: 20px 10px;
+}
+
+#form-modal{
+    width: 70%;
+}
+
+.form-section-style label{
+    font-size: 14px;
+}
+
+.employee-directory-border{
+    border: 1px solid rgb(186, 184, 184);
+    height: 20rem;
+}
+
+#employeeDirectoryStyle{
+    height: 56vh;
+    overflow-y: auto;
+}
+
+.icon-color{
+    color: rgb(150, 149, 149);
+}
+
+#userDirectory div:nth-last-child(-n+3) {
+    font-size: 10px; 
+  }
+
+#entityModalStyle{
+    width: 60%;
+}
+
+ li{
+cursor: pointer;
+}
+
+.list-unstyled li {
+    max-height: 5;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.list-unstyled li.show {
+    max-height: 100px;
+}
+
+.toggle-btn {
+    cursor: pointer;
+    color: blue;
+}
+
+.labelStyle{
+    height: fit-content;
+}
+
+#loadingAnimation {
+    position:absolute;
+    top:60%;
+    left: 45%;
+    z-index: 3; 
+    background-color: #f0f0f0; 
+}
+
+.button-border-1{
+    border: 1px solid;
+}
+
+
+.form-control-style:focus {
+    border-color: #1a181a!important;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(51, 50, 50, 0.5)!important;
+}
