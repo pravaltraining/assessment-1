@@ -319,10 +319,10 @@ var toogle = true;
 function toggleList(isValid) {
 
     if (toogle) {
-        getElement('showMore').innerHTML = 'Show less';
+        getElement('showMore').innerHTML = 'Show More';
         showList();
     } else {
-        getElement('showMore').innerHTML = 'Show more';
+        getElement('showMore').innerHTML = 'Show Less';
         hideList();
     }
 }
