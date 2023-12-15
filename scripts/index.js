@@ -67,23 +67,29 @@ function createUserDataForTesting(){
 function randomImage() {
     getElement('employeeDirectorySection').style.display = 'none';
 
-    allImages = getElement('employeeDirectorySection').querySelectorAll('img');
+    const allImages = getElement('employeeDirectorySection').querySelectorAll('img');
+    const folderPath = '.\\resources\\empImages';
 
     let loadedImages = 0;
 
     allImages.forEach(function (item) {
-        fetch('https://source.unsplash.com/featured/?person')
-            .then(response => response.url)
-            .then(url => {
-                item.src = url;
-                loadedImages++;
+        // Generate a random number to select a random image from the folder
+        const randomImageNumber = Math.floor(Math.random() * 43) + 1; // Assuming you have 10 images in the folder
+        const imagePath = `${folderPath}\\image${randomImageNumber}.jpg`; // Adjust the file extension accordingly
 
-                if (loadedImages === allImages.length) {
-                    showPage();
-                }
-            });
+        // Assign the local image path to the src attribute
+        item.src = imagePath;
+        loadedImages++;
+
+        if (loadedImages === allImages.length) {
+            showPage();
+        }
     });
 }
+
+
+// path of folder to load images randomly , use local folder to load images 
+// path = C:\Nikhil\UI\Assessment\assessment-\resources\empImages
 
 function showPage() {
     getElement('employeeDirectorySection').style.display = 'grid';
